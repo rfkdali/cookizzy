@@ -1,24 +1,19 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Strategy
 
-Things you may want to cover:
+Once i set up the project, i started to think about the main problematic of this challenge: how to search recipes based on a query which contains one or several ingredients.
 
-* Ruby version
+Of course, one of the main challenge is the performance, the speed to process this query.
 
-* System dependencies
+Postgresql has nice features to help us to reach this goal.
 
-* Configuration
+Here is an article i found during my investigation about postgresql and full text search:
+https://pganalyze.com/blog/full-text-search-ruby-rails-postgres
 
-* Database creation
+it's talking, in particulary, about "pg_search" gem which allow us to optimize our full text search.
 
-* Database initialization
 
-* How to run the test suite
+`Recipe.search("betterave")`
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+This is all pretty standard SQL plus a few cool functions: ts_rank, to_tsvector, and to_tsquery. The to_tsvector function in is worth a closer look. It generates tsvector data types, which are “a sorted list of distinct lexemes.” Lexemes, in turn, are “words that have been normalized to make different variants of the same word look alike”.
