@@ -4,12 +4,23 @@ class Recipe < ApplicationRecord
 
   validates :name, presence: true
 
-  pg_search_scope :search, against: :name, using: {
-    tsearch: {
-      dictionary: "english",
-      tsvector_column: "tsv",
-    }
+  pg_search_scope :search_by_ingredients,
+    associated_against: {
+      ingredients: :name_qty,
+    },
+    using: {
+      tsearch: {
+        dictionary: "english",
+        tsvector_column: "tsv",
+      }
   }
 
-
+  pg_search_scope :search_by_name,
+    against: :name,
+    using: {
+      tsearch: {
+        dictionary: "english",
+        tsvector_column: "tsv",
+      }
+  }
 end

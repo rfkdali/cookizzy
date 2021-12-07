@@ -20,3 +20,8 @@ This is all pretty standard SQL plus a few cool functions: ts_rank, to_tsvector,
 
 
 Recipe will be a large table as it's already more than 5k records, so we need to cache the "tsvector" for each record, and update it only when new/update operations.
+
+
+As we will do a search on recipes.ingredients, we will use `associated_against:` instead of `against:`
+https://github.com/Casecommons/pg_search#searching-through-associations
+
