@@ -8,6 +8,7 @@ class Recipe < ApplicationRecord
     associated_against: {
       ingredients: :name_qty,
     },
+    ignoring: :accents,
     using: {
       tsearch: {
         dictionary: "english",
