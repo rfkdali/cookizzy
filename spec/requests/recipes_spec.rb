@@ -9,6 +9,41 @@ RSpec.describe '/recipes', type: :request do
   }
   let(:recipe) { create(:recipe, valid_attributes) }
 
+  describe 'GET /search_by_ingredients' do
+    context 'html format' do
+      context 'with existing recipe name' do
+        it 'renders a successful response' do
+          get search_path(recipe.name)
+          expect(response).to have_http_status(:ok)
+        end
+      end
+    end
+
+    context 'JSON format' do
+      before do
+        headers = { "ACCEPT" => "application/json" }
+        get search_path(recipe_name), headers: headers
+      end
+      context 'with existing recipe name' do
+        let(:recipe_name) { recipe.name }
+        it 'renders a successful response' do
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context 'with unexisting recipe name' do
+        let(:recipe_name) { 'pudding' }
+        it 'returns not found' do
+          expect(response).to have_http_status(:not_found)
+        end
+
+        it 'returns empty array' do
+          expect(json_body[:recipes]).to be_empty
+        end
+      end
+    end
+  end
+
   describe 'GET /index' do
     it 'renders a successful response' do
       get recipes_url
@@ -103,7 +138,6 @@ RSpec.describe '/recipes', type: :request do
     end
 
     it 'redirects to the recipes list' do
-      recipe = Recipe.create! valid_attributes
       delete recipe_url(recipe)
       expect(response).to redirect_to(recipes_url)
     end
