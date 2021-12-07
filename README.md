@@ -17,3 +17,6 @@ it's talking, in particulary, about "pg_search" gem which allow us to optimize o
 `Recipe.search("betterave")`
 
 This is all pretty standard SQL plus a few cool functions: ts_rank, to_tsvector, and to_tsquery. The to_tsvector function in is worth a closer look. It generates tsvector data types, which are “a sorted list of distinct lexemes.” Lexemes, in turn, are “words that have been normalized to make different variants of the same word look alike”.
+
+
+Recipe will be a large table as it's already more than 5k records, so we need to cache the "tsvector" for each record, and update it only when new/update operations.
