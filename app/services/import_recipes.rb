@@ -17,6 +17,15 @@ class ImportRecipes
   end
 
   def create_recipe(recipe_json)
-    Recipe.create(JSON.parse(recipe_json))
+    recipe_attrs = parsed_recipe(recipe_json)
+    Recipe.create(recipe_attrs)
+  end
+
+  private
+
+  def parsed_recipe(recipe_json)
+    recipe_hash = JSON.parse(recipe_json)
+    recipe_hash['ingredients'] = recipe_hash['ingredients'].join(', ')
+    recipe_hash
   end
 end

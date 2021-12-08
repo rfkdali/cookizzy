@@ -18,9 +18,16 @@ class RecipesController < ApplicationController
   end
 
   def show
+    @recipes = Recipe.all
+
     respond_to do |format|
-      format.html { render :show, status: :ok }
-      format.json { render json: @recipe, status: :ok }
+      if @recipe
+        format.html { render :show, status: :ok }
+        format.json { render json: @recipe, status: :ok }
+      else
+        format.html { redirect_to recipes_url, notice: "Recipe with id #{params[:id]} not found" }
+        format.json { render_not_found }
+      end
     end
   end
 
@@ -72,10 +79,15 @@ class RecipesController < ApplicationController
   end
 
   def set_recipe
-    @recipe = Recipe.find(params[:id])
+    @recipe = Recipe.find_by_id(params[:id])
   end
 
   def recipe_params
     params.require(:recipe).permit(:name, :ingredients, :rate, :author_tip, :budget, :prep_time, :author, :difficulty, :people_quantity, :cook_time, :tags, :total_time, :image, :nb_comments)
+  end
+
+  def render_not_found(error = nil)
+    error ||= "Recipe with id #{params[:id]} not found"
+    render json: { error: error }, status: :not_found
   end
 end

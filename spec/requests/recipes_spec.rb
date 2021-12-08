@@ -46,9 +46,18 @@ RSpec.describe '/recipes', type: :request do
   end
 
   describe 'GET /show' do
-    it 'renders a successful response' do
-      get recipe_url(recipe)
-      expect(response).to be_successful
+    context 'existing recipe' do
+      it 'renders a successful response' do
+        get recipe_url(recipe)
+        expect(response).to be_successful
+      end
+    end
+
+    context 'invalid recipe id' do
+      it 'renders error' do
+        get recipe_url(99)
+        expect(response).to redirect_to(recipes_url)
+      end
     end
   end
 

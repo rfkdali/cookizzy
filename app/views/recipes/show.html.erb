@@ -18,7 +18,7 @@
 <p>
   <strong>Ingredients:</strong>
   <ul>
-    <% ingredients_list(@recipe.ingredients).each do |ingredient| %>
+    <% @recipe.ingredients.split(',').each do |ingredient| %>
       <li><%= ingredient %></li>
     <% end%>
   </ul>
