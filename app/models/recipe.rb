@@ -12,16 +12,7 @@ class Recipe < ApplicationRecord
     using: {
       tsearch: {
         dictionary: "english",
-        tsvector_column: "tsv",
-      }
-  }
-
-  pg_search_scope :search_by_name,
-    against: :name,
-    using: {
-      tsearch: {
-        dictionary: "english",
-        tsvector_column: "tsv",
+        any_word: true
       }
   }
 end

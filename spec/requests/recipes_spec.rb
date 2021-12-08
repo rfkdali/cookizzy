@@ -8,38 +8,30 @@ RSpec.describe '/recipes', type: :request do
     { name: nil}
   }
   let(:recipe) { create(:recipe, valid_attributes) }
+  let!(:chicken) { create(:ingredient, recipe: recipe, name_qty: '800grs of chicken') }
 
   describe 'GET /search_by_ingredients' do
-    context 'html format' do
-      context 'with existing recipe name' do
-        it 'renders a successful response' do
-          get search_path(recipe.name)
-          expect(response).to have_http_status(:ok)
-        end
+    before { post recipes_search_path, params:{name: recipe_name} }
+
+    context 'with existing recipe name' do
+      let(:recipe_name) { 'chicken' }
+      it 'renders a successful response' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'returns recipes' do
+        expect(json_body[:recipes][0][:name]).to eq(recipe.name)
       end
     end
 
-    context 'JSON format' do
-      before do
-        headers = { "ACCEPT" => "application/json" }
-        get search_path(recipe_name), headers: headers
-      end
-      context 'with existing recipe name' do
-        let(:recipe_name) { recipe.name }
-        it 'renders a successful response' do
-          expect(response).to have_http_status(:ok)
-        end
+    context 'with unexisting recipe name' do
+      let(:recipe_name) { 'pudding' }
+      it 'returns :ok' do
+        expect(response).to have_http_status(:ok)
       end
 
-      context 'with unexisting recipe name' do
-        let(:recipe_name) { 'pudding' }
-        it 'returns not found' do
-          expect(response).to have_http_status(:not_found)
-        end
-
-        it 'returns empty array' do
-          expect(json_body[:recipes]).to be_empty
-        end
+      it 'returns empty array' do
+        expect(json_body[:recipes]).to be_empty
       end
     end
   end

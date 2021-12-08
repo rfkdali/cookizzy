@@ -1,21 +1,15 @@
 class RecipesController < ApplicationController
+  skip_before_action :verify_authenticity_token
   before_action :set_recipe, only: %i[ show edit update destroy ]
 
   def index
-    @recipes = Recipe.all
+    @recipes = search_recipes
   end
 
   def search
-    @recipes = Recipe.where(name: params[:name])
-    respond_to do |format|
-      if @recipes.empty?
-        format.html { render :index }
-        format.json { render json: { recipes: [] }, status: :not_found }
-      else
-        format.html { render :index }
-        format.json { render json: { recipes: @recipes }, status: :ok }
-      end
-    end
+    @recipes = search_recipes
+
+    render json: { recipes: @recipes }, status: :ok
   end
 
   def show
@@ -63,6 +57,10 @@ class RecipesController < ApplicationController
   end
 
   private
+
+  def search_recipes
+    params[:name] ? Recipe.search_by_ingredients(params[:name]) : Recipe.all
+  end
 
   def set_recipe
     @recipe = Recipe.find(params[:id])
