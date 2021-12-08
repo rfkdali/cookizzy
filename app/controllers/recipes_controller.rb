@@ -12,7 +12,7 @@ class RecipesController < ApplicationController
   end
 
   def search
-    @recipes = search_recipes
+    @recipes = Recipe.search_by_ingredients(params[:ingredients])
 
     render json: { recipes: @recipes }, status: :ok
   end
@@ -68,7 +68,7 @@ class RecipesController < ApplicationController
   private
 
   def search_recipes
-    params[:name] ? Recipe.search_by_ingredients(params[:name]) : Recipe.all
+    params[:ingredients] ? Recipe.search_by_ingredients(params[:ingredients]) : Recipe.all
   end
 
   def set_recipe
@@ -76,6 +76,6 @@ class RecipesController < ApplicationController
   end
 
   def recipe_params
-    params.require(:recipe).permit(:name)
+    params.require(:recipe).permit(:name, :ingredients, :rate, :author_tip, :budget, :prep_time, :author, :difficulty, :people_quantity, :cook_time, :tags, :total_time, :image, :nb_comments)
   end
 end

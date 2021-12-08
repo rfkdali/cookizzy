@@ -7,7 +7,7 @@ class AddTsvectorColumn < ActiveRecord::Migration[6.1]
       CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE
       ON recipes FOR EACH ROW EXECUTE PROCEDURE
       tsvector_update_trigger(
-        tsv, 'pg_catalog.english', name
+        tsv, 'pg_catalog.french', ingredients
       );
     SQL
 

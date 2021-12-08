@@ -1,20 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe '/recipes', type: :request do
-  let(:valid_attributes) {
-    { name: 'Roasted chicken' }
-  }
-  let(:invalid_attributes) {
-    { name: nil}
-  }
-  let(:recipe) { create(:recipe, valid_attributes) }
-  let!(:chicken) { create(:ingredient, recipe: recipe, name_qty: '800grs of chicken') }
+  let(:valid_attributes) do
+    {
+      name: 'Poulet rôti',
+      ingredients: "800grs poulet, 150 grs beurre, 1gs d'ail, 2f laurier, 1b romarin"
+    }
+  end
+  let(:invalid_attributes) {{ name: '', ingredients: nil }}
+  let!(:recipe) { create(:recipe, valid_attributes) }
 
   describe 'GET /search_by_ingredients' do
-    before { post recipes_search_path, params:{name: recipe_name} }
+    before do
+      post recipes_search_path, params: { ingredients: recipe_ingredients }
+    end
 
     context 'with existing recipe name' do
-      let(:recipe_name) { 'chicken' }
+      let(:recipe_ingredients) { 'poulet, beurre' }
       it 'renders a successful response' do
         expect(response).to have_http_status(:ok)
       end
@@ -25,7 +27,7 @@ RSpec.describe '/recipes', type: :request do
     end
 
     context 'with unexisting recipe name' do
-      let(:recipe_name) { 'pudding' }
+      let(:recipe_ingredients) { 'pudding' }
       it 'returns :ok' do
         expect(response).to have_http_status(:ok)
       end

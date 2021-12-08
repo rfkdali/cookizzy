@@ -1,17 +1,16 @@
 class Recipe < ApplicationRecord
   include PgSearch::Model
-  has_many :ingredients
+  # has_many :ingredients
 
   validates :name, presence: true
+  validates :ingredients, presence: true
 
   pg_search_scope :search_by_ingredients,
-    associated_against: {
-      ingredients: :name_qty,
-    },
+    against: :ingredients,
     ignoring: :accents,
     using: {
       tsearch: {
-        dictionary: "english",
+        dictionary: 'french',
         any_word: true
       }
   }

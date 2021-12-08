@@ -10,25 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_08_105728) do
+ActiveRecord::Schema.define(version: 2021_12_07_122801) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
 
-  create_table "ingredients", force: :cascade do |t|
-    t.string "name_qty"
-    t.bigint "recipe_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["recipe_id"], name: "index_ingredients_on_recipe_id"
-  end
-
   create_table "recipes", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.tsvector "tsv"
     t.string "rate"
     t.string "author_tip"
     t.string "budget"
@@ -41,8 +30,11 @@ ActiveRecord::Schema.define(version: 2021_12_08_105728) do
     t.string "total_time"
     t.string "image"
     t.string "nb_comments"
+    t.text "ingredients"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.tsvector "tsv"
     t.index ["tsv"], name: "index_recipes_on_tsv", using: :gin
   end
 
-  add_foreign_key "ingredients", "recipes", on_delete: :cascade
 end

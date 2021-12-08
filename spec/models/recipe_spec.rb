@@ -1,13 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Recipe, type: :model do
-  let!(:plat_1)    { create(:recipe, name: 'Oeuf au plat')}
-  let!(:oeufs) { create(:ingredient, recipe: plat_1, name_qty: '2 Oeufs')}
-  let!(:huile) { create(:ingredient, recipe: plat_1, name_qty: '1cs Huile')}
+  let(:ingredients_1) { '2 Oeufs, 1cs Huile' }
+  let!(:plat_1)       { create(:recipe, name: 'Oeuf au plat', ingredients: ingredients_1)}
 
-  let!(:plat_2)    { create(:recipe, name: 'Velouté au foie gras')}
-  let!(:foie_gras) { create(:ingredient, recipe: plat_2, name_qty: '200grs de Foie gras')}
-  let!(:creme) { create(:ingredient, recipe: plat_2, name_qty: '25cl de crème')}
+  let(:ingredients_2) { '200grs de Foie gras, 25cl de crème' }
+  let!(:plat_2)       { create(:recipe, name: 'Velouté au foie gras', ingredients: ingredients_2)}
 
   describe 'pg_search_scope' do
     describe 'search_by_ingredients' do
@@ -18,9 +16,8 @@ RSpec.describe Recipe, type: :model do
       end
 
       describe 'Two recipes matching' do
-        let!(:plat_3) { create(:recipe, name: 'Terrine de foie gras')}
-        let!(:foie_gras_2) { create(:ingredient, recipe: plat_3, name_qty: '400grs de Foie gras')}
-
+        let(:ingredients_3) { '400grs de Foie gras, 25cl de crème' }
+        let!(:plat_3)       { create(:recipe, name: 'Velouté au foie gras', ingredients: ingredients_3)}
         it 'returns corresponding recipes' do
           expect(Recipe.search_by_ingredients('foie gras')).to eq([plat_2, plat_3])
         end

@@ -17,8 +17,8 @@
 
 <p>
   <strong>Ingredients:</strong></br>
-  <% @recipe.ingredients.each do |ingredient| %>
-    - <%= ingredient.name_qty %></br>
+  <% @recipe.ingredients.split(', ').each do |ingredient| %>
+    - <%= ingredient %></br>
   <% end%>
 </p>
 
