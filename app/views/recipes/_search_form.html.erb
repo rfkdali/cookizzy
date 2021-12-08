@@ -1,0 +1,9 @@
+<%= form_tag(recipes_path, method: :get) do %>
+  <div class="field">
+    <%= text_field_tag(:name, params[:name]) %>
+  </div>
+
+  <div class="actions">
+    <%= submit_tag 'chercher'%>
+  </div>
+<% end %>
