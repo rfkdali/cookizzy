@@ -16,10 +16,12 @@
 </p>
 
 <p>
-  <strong>Ingredients:</strong></br>
-  <% @recipe.ingredients.split(', ').each do |ingredient| %>
-    - <%= ingredient %></br>
-  <% end%>
+  <strong>Ingredients:</strong>
+  <ul>
+    <% ingredients_list(@recipe.ingredients).each do |ingredient| %>
+      <li><%= ingredient %></li>
+    <% end%>
+  </ul>
 </p>
 
 <%= link_to 'Edit', edit_recipe_path(@recipe) %> |
