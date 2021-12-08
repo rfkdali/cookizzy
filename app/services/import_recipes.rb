@@ -3,7 +3,7 @@ require 'json'
 class ImportRecipes
   attr_reader :recipes_path
 
-  DEFAULT_PATH = 'public/assets/javascript/recipes.json'.freeze
+  DEFAULT_PATH = 'lib/assets/recipes.json'.freeze
 
   def initialize(recipes_path = DEFAULT_PATH)
     @recipes_path = recipes_path
