@@ -4,6 +4,11 @@ class RecipesController < ApplicationController
 
   def index
     @recipes = search_recipes
+
+    respond_to do |format|
+      format.html { render :index, status: :ok }
+      format.json { render json: { recipes: @recipes }, status: :ok }
+    end
   end
 
   def search
@@ -13,6 +18,10 @@ class RecipesController < ApplicationController
   end
 
   def show
+    respond_to do |format|
+      format.html { render :show, status: :ok }
+      format.json { render json: @recipe, status: :ok }
+    end
   end
 
   def new
