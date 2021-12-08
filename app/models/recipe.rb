@@ -11,7 +11,7 @@ class Recipe < ApplicationRecord
     using: {
       tsearch: {
         dictionary: 'french',
-        any_word: true
+        prefix: true
       }
   }
 end
