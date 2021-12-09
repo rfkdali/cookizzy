@@ -1,6 +1,7 @@
 class Recipe < ApplicationRecord
   include PgSearch::Model
-  # has_many :ingredients
+
+  # paginates_per 25
 
   validates :name, presence: true
   validates :ingredients, presence: true

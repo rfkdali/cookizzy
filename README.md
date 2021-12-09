@@ -22,6 +22,7 @@ This is all pretty standard SQL plus a few cool functions: ts_rank, to_tsvector,
 `Recipes` will be a large table as it's already more than 9k records, so we need to cache the "tsvector" for each record, and update it only when new/update operations.
 
 ### Importing
+
 About the "importing recipes" step, i decided to create a rake task that will call `ImportRecipes` service, that will process asynchronously the recipes creation.
 I decided to do it asynchronously due to the large number of records and also, to give us the ability to handle larger files in the future.
 
@@ -31,17 +32,35 @@ I decided to do it asynchronously due to the large number of records and also, t
 ## Deliverables
 
 ### Recipes data:
-[X] Ability to import recipes from a file
+- [x] Ability to import recipes from a file
 
 ### user stories:
-[X] find Recipe by id: `recipes/:id`
-[X] find Recipe by ingredients: `recipes/search`
-[X] Ability to CRUD on recipes
-[X] Ability to use search from external clients (API)
+- [x] Find Recipes: `recipes`
+- [x] Find Recipe by id: `recipes/:id`
+- [x] Find Recipe by ingredients: `recipes/search`
+- [x] Ability to CRUD on recipes
+- [x] Ability to use search from external clients (API)
+- [x] Ability to use search with autocomplete feature (with React)
 
 ### Demo on Heroku:
-[] TODO
+- [x] https://cookizzy.herokuapp.com/
+
+### Install project locally
+- Setup DB with`rake db:create && rake db:migrate`
+- Import recipes `rake recipes:import && bundle exec sidekiq`
+- Go to `localhost:3000`
+
+### Testing with rspec
+`rspec`
+
 -----
+### UI improvements
+- Homepage uses React
+- Recipes page (`/recipes`) has pagination feature
+
+-----
+
+### Nice to have improvements
 
 - We can go deeper by trying to do an investigation about NLP in order to improve results accuracy.
 
@@ -52,7 +71,7 @@ I decided to do it asynchronously due to the large number of records and also, t
   - search_by_difficulty
   - search_by_budget
   - search_by_rating
+  - search_by_tags (as vegeterian, without gluten, cheese-lover, bodybuilder)
 
 Or we can also create a multi steps form that will guide the user to identify his need:
 - be in a hurry? > how many guests > difficulty > Budget
-(PgSearch provide the ability to combine multiple columns)

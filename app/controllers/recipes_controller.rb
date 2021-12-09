@@ -3,7 +3,7 @@ class RecipesController < ApplicationController
   before_action :set_recipe, only: %i[ show edit update destroy ]
 
   def index
-    @recipes = search_recipes
+    @recipes = search_recipes.page(page)
 
     respond_to do |format|
       format.html { render :index, status: :ok }
@@ -12,7 +12,7 @@ class RecipesController < ApplicationController
   end
 
   def search
-    @recipes = Recipe.search_by_ingredients(params[:ingredients])
+    @recipes = Recipe.search_by_ingredients(params[:ingredients]).page(page)
 
     render json: { recipes: @recipes }, status: :ok
   end
@@ -89,5 +89,9 @@ class RecipesController < ApplicationController
   def render_not_found(error = nil)
     error ||= "Recipe with id #{params[:id]} not found"
     render json: { error: error }, status: :not_found
+  end
+
+  def page
+    params[:page] || 1
   end
 end
