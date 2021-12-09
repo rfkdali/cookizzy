@@ -40,6 +40,9 @@ I decided to do it asynchronously due to the large number of records and also, t
 - [x] Find Recipe by ingredients: `recipes/search`
 - [x] Ability to CRUD on recipes
 - [x] Ability to use search from external clients (API)
+  - Recipes: `GET https://cookizzy.herokuapp.com/recipes.json`
+  - Recipe: `GET https://cookizzy.herokuapp.com/recipes/{recipe_id}.json`
+  - Search recipes: `POST https://cookizzy.herokuapp.com/recipes/search?ingredients='roquefort, boeuf, champignon'`
 - [x] Ability to use search with autocomplete feature (with React)
 
 ### Demo on Heroku:
@@ -51,12 +54,6 @@ I decided to do it asynchronously due to the large number of records and also, t
 - Go to `localhost:3000`
 
 ### Testing with rspec
-`rspec`
-
------
-### UI improvements
-- Homepage uses React
-- Recipes page (`/recipes`) has pagination feature
 
 -----
 
