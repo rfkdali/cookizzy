@@ -27,7 +27,6 @@ class Home extends Component {
 
   render(){
     let autoCompleteList = this.state.autoCompleteResults.map((response, index) => {
-      console.log(response)
       return <div key={index}>
       <a href={'recipes/' + response.id}>{response.name } ({response.difficulty }, {response.prep_time }, {response.budget })</a>
 

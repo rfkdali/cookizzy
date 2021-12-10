@@ -1,8 +1,6 @@
 class Recipe < ApplicationRecord
   include PgSearch::Model
 
-  # paginates_per 25
-
   validates :name, presence: true
   validates :ingredients, presence: true
 
@@ -12,6 +10,7 @@ class Recipe < ApplicationRecord
     using: {
       tsearch: {
         dictionary: 'french',
+        tsvector_column: "tsv",
         prefix: true
       }
   }

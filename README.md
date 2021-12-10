@@ -42,7 +42,7 @@ I decided to do it asynchronously due to the large number of records and also, t
 - [x] Ability to use search from external clients (API)
   - Recipes: `GET https://cookizzy.herokuapp.com/recipes.json`
   - Recipe: `GET https://cookizzy.herokuapp.com/recipes/{recipe_id}.json`
-  - Search recipes: `POST https://cookizzy.herokuapp.com/recipes/search?ingredients='roquefort, boeuf, champignon'`
+  - Search recipes: `GET https://cookizzy.herokuapp.com/recipes/search?ingredients='roquefort, boeuf, champignon'`
 - [x] Ability to use search with autocomplete feature (with React)
 
 ### Demo on Heroku:
@@ -72,3 +72,19 @@ I decided to do it asynchronously due to the large number of records and also, t
 
 Or we can also create a multi steps form that will guide the user to identify his need:
 - be in a hurry? > how many guests > difficulty > Budget
+
+----
+
+#### Notes 10/12/2021
+I added some improvements as i noticed that search queries were not efficient enough, and i found that i forgot to specify (again) `tsvector_column`.
+Results: It improved search query significantly (**from 800ms to 20ms!**)
+```
+Recipe.search_by_ingredients('creme, poulet')
+  Recipe Load (801.0ms)
+```
+To
+
+```
+Recipe.search_by_ingredients('creme, poulet')
+  Recipe Load (21.4ms)
+```
