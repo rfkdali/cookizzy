@@ -12,7 +12,7 @@ class Home extends Component {
       showItemSelected: false
     };
 
-    $.post('recipes/search.json?ingredients=' + this.state.term)
+    $.getJSON('recipes/search?ingredients=' + this.state.term)
       .then(response => this.setState({ autoCompleteResults: response.recipes }))
   }
 
@@ -20,7 +20,7 @@ class Home extends Component {
     this.setState({
       term: e.target.value
     }, () => {
-      $.post('recipes/search.json?ingredients=' + this.state.term)
+      $.getJSON('recipes/search.json?ingredients=' + this.state.term)
         .then(response => this.setState({ autoCompleteResults: response.recipes }))
     });
   }

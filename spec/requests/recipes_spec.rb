@@ -10,9 +10,9 @@ RSpec.describe '/recipes', type: :request do
   let(:invalid_attributes) {{ name: '', ingredients: nil }}
   let!(:recipe) { create(:recipe, valid_attributes) }
 
-  describe 'GET /search_by_ingredients' do
+  describe 'GET /search' do
     before do
-      post recipes_search_path, params: { ingredients: recipe_ingredients }
+      get search_recipes_path, params: { ingredients: recipe_ingredients }
     end
 
     context 'with existing recipe name' do
